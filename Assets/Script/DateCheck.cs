@@ -74,11 +74,16 @@ public class DateCheck : MonoBehaviour
         voiceDate[12, 25] = voiceDate1225;
         voiceDate[12, 31] = voiceDate1231;
         // 해당 날짜의 음성이 있으면 재생
-        nowMonth = 2;
-        nowDay = 14;
-        univoice = GetComponent<AudioSource>();
-        if (voiceDate[nowMonth, nowDay] != null)
+        //playerPrefs 저장하는 용도
+        int oldMonth = PlayerPrefs.GetInt("Month");
+        int oldDay = PlayerPrefs.GetInt("Day");
+        Debug.Log("이전 실행일 : " + oldMonth + "월" + oldDay + "일\n" + "현재 실행일 : " + nowMonth + "월" + nowDay + "일");
+
+         univoice = GetComponent<AudioSource>();
+        if (voiceDate[nowMonth, nowDay] != null && (oldMonth != nowMonth || oldDay != nowDay))
             univoice.PlayOneShot(voiceDate[nowMonth, nowDay]);
+        PlayerPrefs.SetInt("Month", nowMonth);
+        PlayerPrefs.SetInt("Day", nowDay);
     }
 
     // Update is called once per frame
